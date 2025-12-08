@@ -1,76 +1,58 @@
-# Tee ratkaisusi tähän:
-class Tavara:
-    def __init__(self, nimi, paino):
-        self.__nimi=nimi
-        self.__paino=paino
-
-    def __str__(self):
-        return(f"{self.__nimi} ({self.__paino} kg)")
+class OpRekisteriSovellus:
+    def __init__(self):
+        self.__rekisteri = Opintorekisteri()
+    def suorita(self):
+        while True:
+            print("")
+            print("1 lisää suoritus")
+            print("2 hae suoritus")
+            print("3 tilastot")
+            print("0 lopetus\n")
+            
+            komento=int(input("komento: "))
+            if komento == 1:
+                self.lisaa_suoritus()
+            elif komento == 2:
+                self.hae_suoritus()
+            elif komento == 3:
+                self.tilastot()
+            elif komento == 0:
+                break
+            else:
+                print("")
+                continue
     
-    def nimi(self):
-        return self.__nimi
-    
-    def paino(self):
-        return self.__paino
-    
+    def lisaa_suoritus(self):
+        kurssi = input("kurssi: ")
+        arvosana = input("arvosana: ")
+        opintopisteet = input("opintopisteet: ")
+        self.__rekisteri.lisaa_suoritus(kurssi, arvosana, opintopisteet)
+
+    def hae_suoritus(self):
+        kurssi = input("kurssi: ")
+        self.__rekisteri.hae_suoritus(kurssi)
+
+    def tilastot(self):
+        pass
 
 
-class Matkalaukku:
-    def __init__(self, maxpaino:int):
-        self.__maxpaino = maxpaino
-        self.__matkalaukku = []
-        self.__yhtpaino = 0
+class Opintorekisteri:
+    def __init__(self):
+        self.__merkinnat = {}
 
-
-    def __str__(self):
-        pituus = len(self.__matkalaukku)
-        if pituus == 1:
-            return(f"1 tavara ({self.__yhtpaino} kg)")
+    def lisaa_suoritus(self, kurssi:str, arvosana:str, opintopisteet:str):
+        nyk_kurssi = self.__merkinnat[kurssi]
+        if not nyk_kurssi:
+            self.__merkinnat[kurssi]={"arvosana":arvosana, "opintopisteet":opintopisteet}
         else:
-            return(f"{pituus} tavaraa ({self.__yhtpaino} kg)")
-
-    def lisaa_tavara(self, tavara):
-        tavpaino = tavara.paino()
-        if tavpaino+self.__yhtpaino <= self.__maxpaino:
-            self.__matkalaukku.append(tavara)
-            self.__yhtpaino += tavpaino
-
-    def tulosta_tavarat(self):
-        for tavara in self.__matkalaukku:
-            print(tavara)
-
-    def paino(self):
-        return self.__yhtpaino
+            if nyk_kurssi[arvosana] 
     
-    def raskain_tavara(self):
-        if len(self.__matkalaukku) == 0:
-            return None
-        raskain = self.__matkalaukku[0]
-        for tavara in self.__matkalaukku:
-            paino = tavara.paino()
-            if paino > raskain.paino():
-                raskain = tavara
-        return raskain
+    def hae_suoritus(self, kurssi:str):
+        tiedot = self.__merkinnat[kurssi]
+        arvosana = tiedot["arvosana"]
+        opintopisteet = tiedot["opintopisteet"]
+        print(f"{kurssi} ({opintopisteet} op) arvosana {arvosana}")
 
 
-class Lastiruuma:
-    def __init__(self, maxpaino:int):
-        self.__maxpaino= maxpaino
-        self.__lastiruuma = []
-        self.__yhtpaino = 0
-
-    def lisaa_matkalaukku(self, matkalaukku):
-        laukkupaino = matkalaukku.paino()
-        if laukkupaino + self.__yhtpaino <= self.__maxpaino:
-            self.__lastiruuma.append(matkalaukku)
-            self.__yhtpaino += matkalaukku.paino()
-
-    def __str__(self):
-        pituus = len(self.__lastiruuma)
-        if pituus == 1:
-            return(f"{pituus} matkalaukku, tilaa {self.__maxpaino-self.__yhtpaino} kg")
-        else:
-            return(f"{pituus} matkalaukkua, tilaa {self.__maxpaino-self.__yhtpaino} kg")
-    def tulosta_tavarat(self):
-        for matkalaukku in self.__lastiruuma:
-            matkalaukku.tulosta_tavarat()
+sovellus = OpRekisteriSovellus()
+sovellus.suorita()
