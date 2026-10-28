@@ -1,2 +1,3 @@
 # Advanced Python course submissions
-Selected submissions for the course TKT10003 Ohjelmoinnin jatkokurssi.
+
+Selected Python exercises and projects from the Programming II course (TKT10003).
